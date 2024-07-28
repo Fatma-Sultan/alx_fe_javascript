@@ -46,6 +46,35 @@ function addQuote() {
     }
 }
 
+// Function to populate the category filter dropdown
+function populateCategoryFilter() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = [...new Set(quotes.map(quote => quote.category))];
+    categoryFilter.innerHTML = '<option value="all">All Categories</option>';
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+// Function to filter quotes based on selected category
+function filterQuotes() {
+    const selectedCategory = document.getElementById('categoryFilter').value;
+    const filteredQuotes = selectedCategory === 'all' ? quotes : quotes.filter(quote => quote.category === selectedCategory);
+    const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
+    const quote = filteredQuotes[randomIndex];
+    document.getElementById('quoteDisplay').innerText = `"${quote.text}" - ${quote.category}`;
+    sessionStorage.setItem('lastViewedQuote', JSON.stringify(quote));
+    localStorage.setItem('selectedCategory', selectedCategory);
+}
+
+// Initialize with the last selected category filter
+const selectedCategory = localStorage.getItem('selectedCategory') || 'all';
+document.getElementById('categoryFilter').value = selectedCategory;
+populateCategoryFilter();
+filterQuotes();
+
 // Function to export quotes to a JSON file
 function exportToJsonFile() {
     const quotesJson = JSON.stringify(quotes, null, 2);
