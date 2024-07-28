@@ -6,7 +6,21 @@ let quotes = JSON.parse(localStorage.getItem('quotes')) || [
     { text: "Life is 10% what happens to us and 90% how we react to it.", category: "Life" },
     { text: "The best way to predict the future is to create it.", category: "Inspiration" }
 ];
+const apiUrl = 'https://jsonplaceholder.typicode.com/posts';  // Example API endpoint
 
+function saveQuotes() {
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
+function showRandomQuote() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    const quote = quotes[randomIndex];
+    document.getElementById('quoteDisplay').innerText = `"${quote.text}" - ${quote.category}`;
+    sessionStorage.setItem('lastViewedQuote', JSON.stringify(quote));
+}
+
+const lastViewedQuote = JSON.parse(sessionStorage.getItem('lastViewedQuote'));
+if (lastViewed
 // Function to save quotes to local storage
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
