@@ -12,6 +12,8 @@ function showRandomQuote() {
     const randomQuote = quotes[randomIndex];
     quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p><i>${randomQuote.category}</i></p>`;
 }
+// Add an event listener to the "Show New Quote" button
+document.getElementById('newQuote').addEventListener('click', showRandomQuote);
 
 // Function to create a form for adding new quotes
 function createAddQuoteForm() {
