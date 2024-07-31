@@ -7,9 +7,9 @@ const quotes = [
     { text: "Dream big and dare to fail.", category: "Aspirations" },
     { text: "Integrity is doing the right thing, even when no one is watching.", category: "Integrity" },
     { text: "Education is the most powerful weapon which you can use to change the world.", category: "Learning" },
-    { text: ""Believe you can and you're halfway there.", category: "Confidence" },
     
     ];
+    
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
 }
