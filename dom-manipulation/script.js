@@ -156,7 +156,8 @@ populateCategories();
 loadLastFilter();
 
 // Example using JSONPlaceholder API
-const SERVER_URL = 'https://jsonplaceholder.typicode.com';
+
+const mockApiUrl = 'https://jsonplaceholder.typicode.com/quotes';
 
 function fetchServerQuotes() {
     fetch(`${SERVER_URL}/quotes`)
@@ -168,21 +169,25 @@ function fetchServerQuotes() {
 }
 
 function fetchQuotesFromServer() {
-    fetch('https://jsonplaceholder.typicode.com/quotes')
+    fetch(mockApiUrl)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             return response.json();
         })
-        .then(serverQuotes => {
-            // Handle the server quotes, e.g., merge with local quotes and update UI
-            syncQuotesWithServer(serverQuotes);
+        .then(quotes => {
+            // Process the quotes data here
+            console.log('Quotes fetched from server:', quotes);
+            // You might want to update the local storage or the UI with the new quotes
         })
         .catch(error => {
             console.error('There has been a problem with your fetch operation:', error);
         });
 }
+
+// Call the function when the application starts
+fetchQuotesFromServer();
 
 function syncQuotesWithServer(serverQuotes) {
     // Implement the logic to merge server quotes with local quotes
