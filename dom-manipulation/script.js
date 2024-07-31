@@ -1,4 +1,19 @@
 // script.js
+let quotes = JSON.parse(localStorage.getItem('quotes')) || [
+    { text: "Success is not the key to happiness. Happiness is the key to success. If you love what you are doing, you will be successful.", category: "Motivation" },
+    { text: "Keep your face always toward the sunshine—and shadows will fall behind you.", category: "Optimism" },
+    { text: "The only limit to our realization of tomorrow is our doubts of today.", category: "Inspirational" },
+    { text: "Start where you are. Use what you have. Do what you can.", category: "Capability" },
+    { text: "Dream big and dare to fail.", category: "Aspirations" },
+    { text: "Integrity is doing the right thing, even when no one is watching.", category: "Integrity" },
+    { text: "Education is the most powerful weapon which you can use to change the world.", category: "Learning" },
+    { text: ""Believe you can and you're halfway there.", category: "Confidence" },
+    
+
+function saveQuotes() {
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
 
 // Load quotes from local storage or initialize with default quotes
 let quotes = JSON.parse(localStorage.getItem('quotes')) || [
