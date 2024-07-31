@@ -167,18 +167,38 @@ function fetchServerQuotes() {
         .catch(error => console.error('Error fetching server quotes:', error));
 }
 
-setInterval(fetchServerQuotes, 5000); // Fetch every 5 seconds
+function fetchQuotesFromServer() {
+    fetch('https://jsonplaceholder.typicode.com/quotes')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(serverQuotes => {
+            // Handle the server quotes, e.g., merge with local quotes and update UI
+            syncQuotesWithServer(serverQuotes);
+        })
+        .catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+}
 
-function syncQuotes(serverQuotes) {
+function syncQuotesWithServer(serverQuotes) {
+    // Implement the logic to merge server quotes with local quotes
+    // For example, you might update the local storage with the server quotes
+    // or merge them based on certain conditions
     const localQuotes = JSON.parse(localStorage.getItem('quotes')) || [];
-    const updatedQuotes = mergeQuotes(localQuotes, serverQuotes);
-    localStorage.setItem('quotes', JSON.stringify(updatedQuotes));
-    populateCategories(); // Update the UI if necessary
+    const mergedQuotes = mergeQuotes(localQuotes, serverQuotes);
+    localStorage.setItem('quotes', JSON.stringify(mergedQuotes));
+    // You might also want to update the UI or notify the user
 }
 
 function mergeQuotes(localQuotes, serverQuotes) {
-    // Implement a simple merge strategy, e.g., server quotes take precedence
-    return serverQuotes; // This is a basic example; you might want a more complex merge
+    // Implement your merge logic here
+    // This could be as simple as replacing local quotes with server quotes
+    // or more complex, such as merging based on quote IDs
+    return serverQuotes; // This is a placeholder; replace with actual merge logic
 }
 
 function notifyUser(message) {
