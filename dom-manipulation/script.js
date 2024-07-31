@@ -34,6 +34,22 @@ function addQuote() {
         const newQuote = { text: quoteText, category: quoteCategory };
         quotes.push(newQuote); // Add the new quote to the quotes array
         showRandomQuote(); // Display a new quote after adding
+     // Function to save quotes to local storage
+function saveQuotes() {
+    localStorage.setItem('quotes', JSON.stringify(quotes));
+}
+
+// Function to load quotes from local storage
+function loadQuotes() {
+    const savedQuotes = localStorage.getItem('quotes');
+    if (savedQuotes) {
+        quotes = JSON.parse(savedQuotes);
+    }
+}
+
+// Call loadQuotes() when the application starts
+loadQuotes();
+
 
         // Clear the input fields
         document.getElementById('newQuoteText').value = '';
