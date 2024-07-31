@@ -11,6 +11,7 @@ function showRandomQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
     quoteDisplay.innerHTML = `<p>"${randomQuote.text}"</p><p><i>${randomQuote.category}</i></p>`;
+    sessionStorage.setItem('lastViewedQuote', JSON.stringify(randomQuote));
 }
 // Add an event listener to the "Show New Quote" button
 document.getElementById('newQuote').addEventListener('click', showRandomQuote);
@@ -77,4 +78,34 @@ loadQuotes();
             feedback.remove();
         }, 3000);
     }
+}
+
+function exportQuotes() {
+    const quotesJson = JSON.stringify(quotes, null, 2);
+    const blob = new Blob([quotesJson], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'quotes.json';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// Add an event listener to the export button
+document.getElementById('exportQuotes').addEventListener('click', exportQuotes);
+
+function importFromJsonFile(event) {
+    const fileReader = new FileReader();
+    fileReader.onload = function(event) {
+        try {
+            const importedQuotes = JSON.parse(event.target.result);
+            quotes = importedQuotes; // Replace existing quotes
+            saveQuotes(); // Save the imported quotes
+            showRandomQuote(); // Display a new quote from the imported list
+            alert('Quotes imported successfully!');
+        } catch (error) {
+            alert('Error importing quotes: ' + error.message);
+        }
+    };
+    fileReader.readAsText(event.target.files[0]);
 }
