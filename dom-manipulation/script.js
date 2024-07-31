@@ -35,6 +35,8 @@ function addQuote() {
         const newQuote = { text: quoteText, category: quoteCategory };
         quotes.push(newQuote); // Add the new quote to the quotes array
         showRandomQuote(); // Display a new quote after adding
+        populateCategories(); // Update the categories dropdown
+    saveQuotes(); // Save quotes after adding a new quote
      // Function to save quotes to local storage
 function saveQuotes() {
     localStorage.setItem('quotes', JSON.stringify(quotes));
@@ -109,3 +111,46 @@ function importFromJsonFile(event) {
     };
     fileReader.readAsText(event.target.files[0]);
 }
+function populateCategories() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const categories = [...new Set(quotes.map(quote => quote.category))];
+    categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+    });
+}
+
+function filterQuotes() {
+    const categoryFilter = document.getElementById('categoryFilter');
+    const selectedCategory = categoryFilter.value;
+    const quoteDisplay = document.getElementById('quoteDisplay');
+    quoteDisplay.innerHTML = ''; // Clear previous quotes
+
+    const filteredQuotes = quotes.filter(quote => 
+        selectedCategory === 'all' || quote.category === selectedCategory
+    );
+
+    if (filteredQuotes.length > 0) {
+        showRandomQuote(filteredQuotes); // Display a random quote from the filtered list
+    } else {
+        quoteDisplay.innerHTML = '<p>No quotes available for this category.</p>';
+    }
+
+    // Save the last selected filter in local storage
+    localStorage.setItem('lastFilter', selectedCategory);
+}
+
+function loadLastFilter() {
+    const lastFilter = localStorage.getItem('lastFilter');
+    const categoryFilter = document.getElementById('categoryFilter');
+    if (lastFilter) {
+        categoryFilter.value = lastFilter;
+        filterQuotes(); // Apply the last selected filter
+    }
+}
+
+// Call these functions when the application starts
+populateCategories();
+loadLastFilter();
